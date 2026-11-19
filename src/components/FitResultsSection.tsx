@@ -477,6 +477,74 @@ export function FitResultsSection({
                       {row.explanationText}
                     </p>
 
+                    {row.roundedDeltaCm !== undefined &&
+                      row.status !== 'incompatible_method' && (
+                        <div
+                          aria-hidden="true"
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            margin: '5px 0',
+                          }}
+                        >
+                          <div
+                            style={{
+                              position: 'relative',
+                              flex: 1,
+                              maxWidth: '220px',
+                              height: '6px',
+                              background: 'var(--bg-subtle)',
+                              borderRadius: '99px',
+                              overflow: 'hidden',
+                            }}
+                          >
+                            <div
+                              style={{
+                                position: 'absolute',
+                                left: '50%',
+                                top: 0,
+                                bottom: 0,
+                                width: '1px',
+                                background: 'var(--border-strong)',
+                              }}
+                            />
+                            <div
+                              style={{
+                                position: 'absolute',
+                                top: 0,
+                                bottom: 0,
+                                left:
+                                  row.roundedDeltaCm < 0
+                                    ? `${Math.max(0, 50 - Math.min(50, (Math.abs(row.roundedDeltaCm) / 6) * 50))}%`
+                                    : '50%',
+                                width: `${Math.min(50, (Math.abs(row.roundedDeltaCm) / 6) * 50)}%`,
+                                background: row.isSimilar
+                                  ? 'var(--status-ok-text)'
+                                  : row.roundedDeltaCm < 0
+                                    ? 'var(--selvedge-red)'
+                                    : 'var(--indigo-primary)',
+                                borderRadius: '99px',
+                                transition: 'all 0.2s ease',
+                              }}
+                            />
+                          </div>
+                          <span
+                            style={{
+                              fontSize: '0.7rem',
+                              fontFamily: 'var(--font-mono)',
+                              color: 'var(--ink-muted)',
+                            }}
+                          >
+                            {row.isSimilar
+                              ? '≈ Match'
+                              : row.roundedDeltaCm < 0
+                                ? '← Tighter / shorter'
+                                : 'Roomier / longer →'}
+                          </span>
+                        </div>
+                      )}
+
                     <p
                       className="comp-method-status"
                       data-testid={`comp-method-${comp.candidateId}-${row.dimension}`}
