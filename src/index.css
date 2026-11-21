@@ -1,54 +1,136 @@
+/* ───────────────────────────────────────────────────────────────────────────
+   Denim Fit Check — iOS Liquid Glass + Kojima Selvedge Design System
+   Informed by stormaref/LiquidGlassSkill (4 rules, 3-inset specular rim,
+   ambient mesh backdrop, colorless glass tint, tiered blur) & oil-oil/oil-ui.
+   ─────────────────────────────────────────────────────────────────────────── */
+
 :root {
-  /* Kojima Selvedge Atelier Palette — Informed by oil-oil/oil-ui visual language:
-     Restrained surface temperature shifts, crisp 1px hairlines, zero decorative clutter */
-  --bg-canvas: #f6f2ea;
-  --bg-card: #fffefa;
-  --bg-subtle: #eee8dc;
-  --bg-subtle-hover: #e5decb;
-  --bg-accent-soft: #eaf0f7;
-  --bg-indigo-deep: #152741;
+  --glass-radius: 14px;
+  --glass-radius-lg: 18px;
+  --glass-radius-sm: 10px;
+  --glass-radius-full: 9999px;
 
-  --ink-primary: #141c26;
-  --ink-secondary: #3e4b5c;
-  --ink-muted: #5e6a7a;
-  --ink-on-dark: #faf7f0;
+  --glass-duration: 180ms;
+  --glass-ease: cubic-bezier(0.16, 1, 0.3, 1);
 
-  --indigo-primary: #162a45;
-  --indigo-hover: #0e1c30;
-  --indigo-focus: #274f87;
-
-  --selvedge-red: #b63829;
-
-  /* Semantic Status Tokens (always paired with explicit text labels) */
-  --status-ok-bg: #eaf5ef;
-  --status-ok-border: #9bc9b1;
-  --status-ok-text: #135438;
-
-  --status-diff-bg: #edf2f8;
-  --status-diff-border: #adc0db;
-  --status-diff-text: #193761;
-
-  --status-warn-bg: #fef5e8;
-  --status-warn-border: #e5bd82;
-  --status-warn-text: #7b4508;
-
-  --status-err-bg: #fdefed;
-  --status-err-border: #e5a39b;
-  --status-err-text: #931f14;
-
-  --border-hairline: #ddd5c7;
-  --border-strong: #b8af9e;
-
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 14px;
-
-  --shadow-subtle: 0 1px 2px rgba(20, 28, 38, 0.04);
-  --shadow-card: 0 2px 10px rgba(20, 28, 38, 0.045);
-
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
   --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ─── LIGHT THEME (Default: Frosted Daylight Ecru & Indigo Mesh) ─── */
+:root,
+html[data-theme='light'] {
+  color-scheme: light;
+
+  /* Ambient Mesh Backdrop (Rule 1: uneven atmospheric colour behind glass) */
+  --glass-page-bg: #ebeef5;
+  --glass-page-fg: #141c26;
+  --glass-mesh-indigo: rgba(59, 102, 184, 0.22);
+  --glass-mesh-copper: rgba(214, 128, 72, 0.16);
+  --glass-mesh-sky: rgba(56, 189, 248, 0.18);
+  --glass-mesh-violet: rgba(124, 92, 230, 0.14);
+
+  /* Colorless Glass Tint + Polished 3-Inset Specular Rim (Rule 2) */
+  --glass-tint-top: rgba(255, 255, 255, 0.54);
+  --glass-tint-bottom: rgba(242, 244, 248, 0.38);
+  --glass-tint-top-hover: rgba(255, 255, 255, 0.68);
+  --glass-tint-bottom-hover: rgba(245, 247, 250, 0.5);
+  --glass-child-surface: rgba(255, 255, 255, 0.42);
+  --glass-input-bg: rgba(255, 255, 255, 0.72);
+
+  --glass-rim-top: rgba(255, 255, 255, 0.88);
+  --glass-rim-hairline: rgba(255, 255, 255, 0.38);
+  --glass-rim-bottom: rgba(255, 255, 255, 0.18);
+
+  --glass-border: rgba(24, 34, 54, 0.11);
+  --glass-border-strong: rgba(24, 34, 54, 0.22);
+  --glass-shadow:
+    0 12px 32px rgba(20, 32, 56, 0.08),
+    0 2px 6px rgba(20, 32, 56, 0.04);
+
+  --ink-primary: #121a24;
+  --ink-secondary: #394657;
+  --ink-muted: #586577;
+  --ink-on-dark: #f8fafc;
+
+  --indigo-primary: #1a3a6b;
+  --indigo-hover: #132c52;
+  --indigo-focus: #2b6cb0;
+  --selvedge-red: #b83728;
+
+  /* Semantic Status Tokens */
+  --status-ok-bg: rgba(218, 245, 230, 0.65);
+  --status-ok-border: rgba(34, 139, 84, 0.35);
+  --status-ok-text: #115336;
+
+  --status-diff-bg: rgba(226, 236, 250, 0.65);
+  --status-diff-border: rgba(37, 87, 167, 0.3);
+  --status-diff-text: #163766;
+
+  --status-warn-bg: rgba(254, 240, 215, 0.72);
+  --status-warn-border: rgba(202, 125, 24, 0.38);
+  --status-warn-text: #7a4206;
+
+  --status-err-bg: rgba(253, 228, 225, 0.72);
+  --status-err-border: rgba(196, 52, 39, 0.35);
+  --status-err-text: #8f1d13;
+}
+
+/* ─── DARK THEME (iOS Night Glass: Deep Obsidian + Luminous Rim + Indigo/Cyan/Violet Glow) ─── */
+html[data-theme='dark'] {
+  color-scheme: dark;
+
+  --glass-page-bg: #080b12;
+  --glass-page-fg: #eef2f8;
+  --glass-mesh-indigo: rgba(59, 130, 246, 0.28);
+  --glass-mesh-copper: rgba(236, 72, 153, 0.18);
+  --glass-mesh-sky: rgba(6, 182, 212, 0.2);
+  --glass-mesh-violet: rgba(139, 92, 246, 0.24);
+
+  --glass-tint-top: rgba(255, 255, 255, 0.08);
+  --glass-tint-bottom: rgba(179, 185, 200, 0.04);
+  --glass-tint-top-hover: rgba(255, 255, 255, 0.13);
+  --glass-tint-bottom-hover: rgba(179, 185, 200, 0.08);
+  --glass-child-surface: rgba(255, 255, 255, 0.05);
+  --glass-input-bg: rgba(12, 17, 28, 0.58);
+
+  /* Brighter rim in dark mode carries the sculpted glass edge */
+  --glass-rim-top: rgba(255, 255, 255, 0.42);
+  --glass-rim-hairline: rgba(255, 255, 255, 0.11);
+  --glass-rim-bottom: rgba(255, 255, 255, 0.06);
+
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-border-strong: rgba(255, 255, 255, 0.24);
+  --glass-shadow:
+    0 18px 42px rgba(0, 0, 0, 0.42),
+    0 2px 8px rgba(0, 0, 0, 0.25);
+
+  --ink-primary: #f1f5f9;
+  --ink-secondary: #cbd5e1;
+  --ink-muted: #94a3b8;
+  --ink-on-dark: #ffffff;
+
+  --indigo-primary: #3b82f6;
+  --indigo-hover: #2563eb;
+  --indigo-focus: #60a5fa;
+  --selvedge-red: #f87171;
+
+  --status-ok-bg: rgba(16, 185, 129, 0.16);
+  --status-ok-border: rgba(52, 211, 153, 0.35);
+  --status-ok-text: #6ee7b7;
+
+  --status-diff-bg: rgba(59, 130, 246, 0.16);
+  --status-diff-border: rgba(96, 165, 250, 0.35);
+  --status-diff-text: #93c5fd;
+
+  --status-warn-bg: rgba(245, 158, 11, 0.16);
+  --status-warn-border: rgba(251, 191, 36, 0.35);
+  --status-warn-text: #fcd34d;
+
+  --status-err-bg: rgba(239, 68, 68, 0.16);
+  --status-err-border: rgba(248, 113, 113, 0.35);
+  --status-err-text: #fca5a5;
 }
 
 *,
@@ -64,12 +146,32 @@ body {
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
-  background-color: var(--bg-canvas);
-  color: var(--ink-primary);
   font-family: var(--font-sans);
   font-size: 15px;
   line-height: 1.58;
   -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Rule 1: Fixed Ambient Mesh Backdrop ─── */
+.liquid-glass-backdrop {
+  position: relative;
+  isolation: isolate;
+  background: var(--glass-page-bg);
+  color: var(--glass-page-fg);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.liquid-glass-backdrop::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(42rem 34rem at 18% 12%, var(--glass-mesh-indigo), transparent 62%),
+    radial-gradient(38rem 32rem at 82% 20%, var(--glass-mesh-sky), transparent 62%),
+    radial-gradient(40rem 34rem at 64% 58%, var(--glass-mesh-copper), transparent 64%),
+    radial-gradient(44rem 36rem at 24% 84%, var(--glass-mesh-violet), transparent 64%);
 }
 
 button:focus-visible,
@@ -89,14 +191,27 @@ a:focus-visible {
   width: 100%;
 }
 
-/* Compact Single-Row Workspace Header (oil-ui: screen one starts with controls & work) */
+/* ─── Glass Panel Mixin (Tint + 3-Inset Specular Rim + Frost Blur) ─── */
+.app-header,
+.section-card,
+.sample-preview-card,
+.review-panel {
+  position: relative;
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius-lg);
+  background: linear-gradient(180deg, var(--glass-tint-top), var(--glass-tint-bottom));
+  box-shadow:
+    var(--glass-shadow),
+    inset 0 1px 0 var(--glass-rim-top),
+    inset 0 0 0 1px var(--glass-rim-hairline),
+    inset 0 -1px 0 var(--glass-rim-bottom);
+  backdrop-filter: blur(18px) saturate(165%);
+  -webkit-backdrop-filter: blur(18px) saturate(165%);
+}
+
 .app-header {
-  background: var(--bg-card);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-lg);
-  padding: 14px 18px;
+  padding: 15px 18px;
   margin-bottom: 14px;
-  box-shadow: var(--shadow-card);
 }
 
 .header-top-row {
@@ -111,13 +226,13 @@ a:focus-visible {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 8px 14px;
-  flex: 1 1 240px;
+  gap: 6px 14px;
+  flex: 1 1 220px;
 }
 
 .app-header h1 {
   font-family: var(--font-display);
-  font-size: 1.85rem;
+  font-size: 1.9rem;
   font-weight: 400;
   line-height: 1.05;
   margin: 0;
@@ -138,21 +253,24 @@ a:focus-visible {
   gap: 8px;
 }
 
-/* Tactile Unit Segmented Toggle */
+/* ─── Chip / Capsule Tier (iOS Segmented Glass Control) ─── */
 .unit-toggle-group {
   display: inline-flex;
   align-items: center;
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-sm);
-  padding: 2px;
+  background: var(--glass-child-surface);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius-full);
+  padding: 3px;
+  box-shadow: inset 0 1px 0 var(--glass-rim-top);
+  backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
 }
 
 .unit-toggle-label {
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 0.78rem;
+  font-weight: 700;
   color: var(--ink-secondary);
-  padding: 0 8px 0 6px;
+  padding: 0 8px 0 8px;
 }
 
 .unit-toggle-btn {
@@ -164,11 +282,11 @@ a:focus-visible {
   font-variant-numeric: tabular-nums;
   font-size: 0.82rem;
   font-weight: 700;
-  min-height: 34px;
+  min-height: 32px;
   padding: 4px 12px;
-  border-radius: 6px;
+  border-radius: var(--glass-radius-full);
   cursor: pointer;
-  transition: background-color 0.14s ease, color 0.14s ease;
+  transition: all var(--glass-duration) var(--glass-ease);
 }
 
 .unit-toggle-btn:hover:not(.active) {
@@ -178,6 +296,9 @@ a:focus-visible {
 .unit-toggle-btn.active {
   background: var(--indigo-primary);
   color: var(--ink-on-dark);
+  box-shadow:
+    0 2px 6px rgba(15, 23, 42, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 /* Mode & Action Bar */
@@ -189,7 +310,7 @@ a:focus-visible {
   gap: 8px;
   margin-top: 12px;
   padding-top: 12px;
-  border-top: 1px solid var(--bg-subtle);
+  border-top: 1px solid var(--glass-border);
 }
 
 .mode-primary-actions,
@@ -199,7 +320,7 @@ a:focus-visible {
   gap: 8px;
 }
 
-/* Unified Control Grammar: Buttons */
+/* ─── Tactile Glass Buttons (3-Inset Rim + Micro-Scale) ─── */
 .btn {
   appearance: none;
   display: inline-flex;
@@ -211,53 +332,58 @@ a:focus-visible {
   font-weight: 600;
   min-height: 40px;
   padding: 8px 14px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-hairline);
-  background: var(--bg-card);
+  border-radius: var(--glass-radius-full);
+  border: 1px solid var(--glass-border);
+  background: linear-gradient(180deg, var(--glass-tint-top), var(--glass-tint-bottom));
   color: var(--ink-primary);
   cursor: pointer;
-  box-shadow: var(--shadow-subtle);
+  box-shadow:
+    0 2px 8px rgba(15, 23, 42, 0.06),
+    inset 0 1px 0 var(--glass-rim-top);
+  backdrop-filter: blur(8px) saturate(135%);
+  -webkit-backdrop-filter: blur(8px) saturate(135%);
   transition:
-    background-color 0.14s ease,
-    border-color 0.14s ease,
-    color 0.14s ease;
+    transform var(--glass-duration) var(--glass-ease),
+    background var(--glass-duration) var(--glass-ease),
+    border-color var(--glass-duration) var(--glass-ease),
+    box-shadow var(--glass-duration) var(--glass-ease);
   text-decoration: none;
   line-height: 1.2;
 }
 
 .btn:hover:not(:disabled) {
-  background: var(--bg-subtle);
-  border-color: var(--border-strong);
+  background: linear-gradient(180deg, var(--glass-tint-top-hover), var(--glass-tint-bottom-hover));
+  border-color: var(--glass-border-strong);
+  transform: translateY(-1px);
 }
 
 .btn:active:not(:disabled) {
-  background: var(--bg-subtle-hover);
+  transform: scale(0.975);
 }
 
 .btn:disabled {
-  opacity: 0.5;
+  opacity: 0.48;
   cursor: not-allowed;
 }
 
 .btn-primary {
-  background: var(--indigo-primary);
+  background: linear-gradient(160deg, var(--indigo-primary), var(--indigo-hover));
   color: var(--ink-on-dark);
-  border-color: var(--indigo-primary);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 4px 14px rgba(26, 58, 107, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: var(--indigo-hover);
-  border-color: var(--indigo-hover);
+  background: linear-gradient(160deg, var(--indigo-hover), var(--indigo-primary));
+  border-color: rgba(255, 255, 255, 0.38);
 }
 
 .btn-accent {
-  background: var(--bg-accent-soft);
-  color: var(--indigo-primary);
+  background: var(--status-diff-bg);
+  color: var(--status-diff-text);
   border-color: var(--status-diff-border);
-}
-
-.btn-accent:hover:not(:disabled) {
-  background: #dde7f4;
 }
 
 .btn-danger {
@@ -266,21 +392,18 @@ a:focus-visible {
   border-color: var(--status-err-border);
 }
 
-.btn-danger:hover:not(:disabled) {
-  background: #fadbd8;
-}
-
 .btn-sm {
   font-size: 0.82rem;
   min-height: 36px;
   padding: 6px 12px;
 }
 
-/* Example Mode Banner (clean solid contrast switch, no 4px accent bar) */
+/* Example Mode Banner */
 .example-mode-banner {
-  background: var(--bg-indigo-deep);
-  color: var(--ink-on-dark);
-  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, rgba(22, 42, 69, 0.88), rgba(30, 58, 100, 0.84));
+  color: #f8fafc;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: var(--glass-radius);
   padding: 12px 16px;
   margin-bottom: 14px;
   display: flex;
@@ -288,6 +411,11 @@ a:focus-visible {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
+  box-shadow:
+    var(--glass-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
 }
 
 .example-mode-banner p {
@@ -295,16 +423,19 @@ a:focus-visible {
   font-size: 0.86rem;
 }
 
-/* Mobile Step Flow Navigation Bar */
+/* ─── iOS Segmented Glass Navigation Bar ─── */
 .mobile-flow-nav {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 5px;
-  background: var(--bg-subtle);
+  gap: 4px;
+  background: var(--glass-child-surface);
   padding: 4px;
-  border-radius: var(--radius-md);
-  border: 1px solid var(--border-hairline);
+  border-radius: var(--glass-radius-full);
+  border: 1px solid var(--glass-border);
   margin-bottom: 16px;
+  box-shadow: inset 0 1px 0 var(--glass-rim-top);
+  backdrop-filter: blur(14px) saturate(150%);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
 }
 
 .flow-step-btn {
@@ -315,15 +446,15 @@ a:focus-visible {
   font-family: inherit;
   font-size: 0.84rem;
   font-weight: 700;
-  min-height: 40px;
-  padding: 8px 6px;
-  border-radius: var(--radius-sm);
+  min-height: 38px;
+  padding: 7px 8px;
+  border-radius: var(--glass-radius-full);
   cursor: pointer;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: background-color 0.14s ease, color 0.14s ease;
+  transition: all var(--glass-duration) var(--glass-ease);
 }
 
 .flow-step-btn:hover:not(.active) {
@@ -331,20 +462,18 @@ a:focus-visible {
 }
 
 .flow-step-btn.active {
-  background: var(--bg-card);
+  background: linear-gradient(180deg, var(--glass-tint-top-hover), var(--glass-tint-bottom-hover));
   color: var(--indigo-primary);
-  border-color: var(--border-hairline);
-  box-shadow: var(--shadow-subtle);
+  border-color: var(--glass-border);
+  box-shadow:
+    0 2px 8px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 var(--glass-rim-top);
 }
 
 /* Sections */
 .section-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-lg);
   padding: 20px;
   margin-bottom: 16px;
-  box-shadow: var(--shadow-card);
 }
 
 .section-header {
@@ -355,7 +484,7 @@ a:focus-visible {
   gap: 10px;
   margin-bottom: 16px;
   padding-bottom: 12px;
-  border-bottom: 1px solid var(--bg-subtle);
+  border-bottom: 1px solid var(--glass-border);
 }
 
 .section-header h2 {
@@ -375,12 +504,9 @@ a:focus-visible {
   margin-bottom: 2px;
 }
 
-/* Compact Sample Result Preview Strip (oil-ui: no left bar, no nested boxes) */
+/* Sample Preview Strip */
 .sample-preview-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-md);
-  padding: 14px 18px;
+  padding: 15px 18px;
   margin-bottom: 14px;
 }
 
@@ -407,7 +533,7 @@ a:focus-visible {
   gap: 12px;
   margin-top: 10px;
   padding-top: 10px;
-  border-top: 1px solid var(--bg-subtle);
+  border-top: 1px solid var(--glass-border);
 }
 
 .sample-mini-box {
@@ -415,7 +541,7 @@ a:focus-visible {
   color: var(--ink-secondary);
 }
 
-/* Forms & Inputs (oil-ui: >= 13px hints, 40px+ touch targets, tabular-nums) */
+/* Forms & Translucent Glass Inputs */
 .form-row-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -450,7 +576,7 @@ a:focus-visible {
   display: flex;
   align-items: stretch;
   width: 100%;
-  border-radius: var(--radius-sm);
+  border-radius: var(--glass-radius-sm);
 }
 
 .text-input,
@@ -460,12 +586,13 @@ a:focus-visible {
   font-family: inherit;
   font-size: 0.94rem;
   color: var(--ink-primary);
-  background: #ffffff;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-sm);
+  background: var(--glass-input-bg);
+  border: 1px solid var(--glass-border-strong);
+  border-radius: var(--glass-radius-sm);
   min-height: 40px;
   padding: 8px 11px;
-  transition: border-color 0.14s ease;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.04);
+  transition: border-color var(--glass-duration) ease, background-color var(--glass-duration) ease;
 }
 
 .textarea-input {
@@ -493,10 +620,10 @@ a:focus-visible {
   justify-content: center;
   min-width: 46px;
   padding: 0 10px;
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-strong);
-  border-top-right-radius: var(--radius-sm);
-  border-bottom-right-radius: var(--radius-sm);
+  background: var(--glass-child-surface);
+  border: 1px solid var(--glass-border-strong);
+  border-top-right-radius: var(--glass-radius-sm);
+  border-bottom-right-radius: var(--glass-radius-sm);
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
   font-size: 0.84rem;
@@ -515,7 +642,7 @@ a:focus-visible {
   color: var(--status-err-text);
   background: var(--status-err-bg);
   border: 1px solid var(--status-err-border);
-  border-radius: 6px;
+  border-radius: var(--glass-radius-sm);
   padding: 7px 10px;
   margin-top: 3px;
 }
@@ -526,44 +653,42 @@ a:focus-visible {
   color: var(--status-ok-text);
   background: var(--status-ok-bg);
   border: 1px solid var(--status-ok-border);
-  border-radius: 6px;
+  border-radius: var(--glass-radius-sm);
   padding: 7px 10px;
   margin-top: 3px;
 }
 
-/* Measurement Grid (6 Dimensions) */
+/* Rule 3: Children inside glass panels use subtle translucent surfaces, no opaque walls */
 .measurements-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 14px;
+  gap: 12px;
 }
 
 .measurement-card {
-  background: var(--bg-canvas);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-md);
-  padding: 14px;
+  background: var(--glass-child-surface);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius);
+  padding: 13px 14px;
   display: flex;
   flex-direction: column;
   gap: 7px;
-  transition: border-color 0.14s ease;
+  box-shadow: inset 0 1px 0 var(--glass-rim-hairline);
+  transition: border-color var(--glass-duration) ease;
 }
 
 .measurement-card:focus-within {
   border-color: var(--indigo-primary);
 }
 
-.measurement-card.priority-field {
-  background: #fbf8f1;
-}
-
 .priority-pill {
   font-size: 0.72rem;
   font-weight: 700;
-  color: var(--indigo-primary);
-  background: var(--bg-accent-soft);
+  color: var(--status-diff-text);
+  background: var(--status-diff-bg);
+  border: 1px solid var(--status-diff-border);
   padding: 2px 8px;
-  border-radius: 99px;
+  border-radius: var(--glass-radius-full);
 }
 
 /* Candidate Switcher Tabs */
@@ -574,7 +699,7 @@ a:focus-visible {
   gap: 7px;
   margin-bottom: 16px;
   padding-bottom: 12px;
-  border-bottom: 1px solid var(--bg-subtle);
+  border-bottom: 1px solid var(--glass-border);
 }
 
 .candidate-tab-btn {
@@ -585,25 +710,29 @@ a:focus-visible {
   font-family: inherit;
   font-size: 0.86rem;
   font-weight: 700;
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-hairline);
-  background: var(--bg-subtle);
+  padding: 8px 14px;
+  border-radius: var(--glass-radius-full);
+  border: 1px solid var(--glass-border);
+  background: var(--glass-child-surface);
   color: var(--ink-secondary);
   cursor: pointer;
   text-align: center;
-  transition: background-color 0.14s ease, color 0.14s ease;
+  box-shadow: inset 0 1px 0 var(--glass-rim-hairline);
+  transition: all var(--glass-duration) var(--glass-ease);
 }
 
 .candidate-tab-btn:hover:not(.active) {
-  background: var(--bg-subtle-hover);
   color: var(--ink-primary);
+  border-color: var(--glass-border-strong);
 }
 
 .candidate-tab-btn.active {
-  background: var(--indigo-primary);
+  background: linear-gradient(160deg, var(--indigo-primary), var(--indigo-hover));
   color: var(--ink-on-dark);
-  border-color: var(--indigo-primary);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 3px 10px rgba(26, 58, 107, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 /* Shortcuts Panel */
@@ -615,10 +744,11 @@ a:focus-visible {
 }
 
 .shortcut-box {
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-md);
+  background: var(--glass-child-surface);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius);
   padding: 14px;
+  box-shadow: inset 0 1px 0 var(--glass-rim-hairline);
 }
 
 .shortcut-box h3 {
@@ -630,9 +760,9 @@ a:focus-visible {
 
 .screenshot-preview-container {
   margin-top: 10px;
-  background: var(--bg-card);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-sm);
+  background: var(--glass-child-surface);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius-sm);
   padding: 10px;
 }
 
@@ -643,15 +773,13 @@ a:focus-visible {
   width: auto;
   height: auto;
   margin: 0 auto 8px;
-  border-radius: 6px;
-  border: 1px solid var(--border-hairline);
+  border-radius: 8px;
+  border: 1px solid var(--glass-border);
 }
 
 /* Staged Review Form */
 .review-panel {
-  background: var(--bg-card);
-  border: 2px solid var(--indigo-primary);
-  border-radius: var(--radius-md);
+  border: 1.5px solid var(--indigo-primary);
   padding: 16px;
   margin-bottom: 18px;
 }
@@ -679,9 +807,9 @@ a:focus-visible {
 }
 
 .review-proposal-item {
-  background: var(--bg-canvas);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-sm);
+  background: var(--glass-child-surface);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius-sm);
   padding: 12px;
 }
 
@@ -689,7 +817,7 @@ a:focus-visible {
   font-family: var(--font-mono);
   font-size: 0.8rem;
   color: var(--ink-secondary);
-  background: var(--bg-subtle);
+  background: var(--glass-input-bg);
   padding: 5px 9px;
   border-radius: 6px;
   margin: 6px 0 9px;
@@ -707,9 +835,12 @@ a:focus-visible {
 .ranking-banner {
   background: var(--status-ok-bg);
   border: 1px solid var(--status-ok-border);
-  border-radius: var(--radius-md);
+  border-radius: var(--glass-radius);
   padding: 16px;
   margin-bottom: 18px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .ranking-banner.ineligible {
@@ -737,9 +868,9 @@ a:focus-visible {
 }
 
 .ranking-entry-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-sm);
+  background: var(--glass-child-surface);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius-sm);
   padding: 12px 14px;
   font-variant-numeric: tabular-nums;
 }
@@ -749,9 +880,9 @@ a:focus-visible {
 }
 
 .lead-summary-box {
-  background: var(--bg-accent-soft);
+  background: var(--status-diff-bg);
   border: 1px solid var(--status-diff-border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--glass-radius-sm);
   padding: 12px 14px;
   margin-bottom: 14px;
 }
@@ -763,20 +894,21 @@ a:focus-visible {
   margin: 0;
 }
 
-/* Clean Hairline-Separated Comparison Rows (no heavy borders on every row) */
+/* Rule 3: Transparent rows inside glass comparison container separated by hairline dividers */
 .comparison-rows-list {
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius);
   overflow: hidden;
   margin-bottom: 16px;
+  background: var(--glass-child-surface);
 }
 
 .comparison-row-card {
-  border-bottom: 1px solid var(--border-hairline);
+  border-bottom: 1px solid var(--glass-border);
   padding: 12px 14px;
-  background: var(--bg-card);
+  background: transparent;
 }
 
 .comparison-row-card:last-child {
@@ -784,12 +916,12 @@ a:focus-visible {
 }
 
 .comparison-row-card.status-indicative_unknown_method {
-  background: #fffcf5;
+  background: var(--status-warn-bg);
 }
 
 .comparison-row-card.status-incompatible_method,
 .comparison-row-card.status-missing_candidate {
-  background: #fff9f8;
+  background: var(--status-err-bg);
 }
 
 .comp-row-top {
@@ -831,15 +963,16 @@ a:focus-visible {
   margin: 0;
 }
 
-/* Status Badges */
+/* Status Badges (Chip Tier) */
 .status-badge {
   display: inline-flex;
   align-items: center;
   font-size: 0.76rem;
   font-weight: 700;
   padding: 3px 9px;
-  border-radius: 99px;
+  border-radius: var(--glass-radius-full);
   font-variant-numeric: tabular-nums;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 .badge-ok {
@@ -868,9 +1001,9 @@ a:focus-visible {
 
 /* Seller Question Box */
 .seller-question-box {
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-md);
+  background: var(--glass-child-surface);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius);
   padding: 14px;
   margin-top: 12px;
 }
@@ -882,9 +1015,9 @@ a:focus-visible {
 
 /* Inline How to Measure Guide */
 .guide-details {
-  background: var(--bg-subtle);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-md);
+  background: var(--glass-child-surface);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--glass-radius);
   padding: 12px 14px;
   margin: 12px 0;
 }
@@ -907,7 +1040,7 @@ a:focus-visible {
 .guide-table td {
   text-align: left;
   padding: 8px;
-  border-bottom: 1px solid var(--border-hairline);
+  border-bottom: 1px solid var(--glass-border);
   vertical-align: top;
 }
 
@@ -926,7 +1059,7 @@ a:focus-visible {
   gap: 8px;
   margin-top: 16px;
   padding-top: 14px;
-  border-top: 1px solid var(--bg-subtle);
+  border-top: 1px solid var(--glass-border);
 }
 
 @media (max-width: 480px) {
@@ -949,5 +1082,17 @@ a:focus-visible {
   .measurements-grid,
   .shortcuts-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .flow-step-btn,
+  .candidate-tab-btn,
+  .unit-toggle-btn {
+    transition-duration: 0.01ms;
+  }
+  .btn:hover:not(:disabled) {
+    transform: none;
   }
 }

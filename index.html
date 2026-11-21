@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -9,6 +9,20 @@
       content="Compare second-hand Japanese denim garment measurements against a pair you already own. See where each listing differs laid flat and generate copyable seller questions."
     />
     <title>Denim Fit Check — Japanese Selvedge Measurement Comparator</title>
+    <script>
+      (function () {
+        try {
+          var saved = localStorage.getItem('denim_theme');
+          var dark = saved
+            ? saved === 'dark'
+            : window.matchMedia &&
+              window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+        } catch (e) {
+          document.documentElement.dataset.theme = 'light';
+        }
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -16,7 +30,7 @@
       rel="stylesheet"
     />
   </head>
-  <body>
+  <body class="liquid-glass-backdrop">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

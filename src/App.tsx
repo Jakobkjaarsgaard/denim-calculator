@@ -23,8 +23,31 @@ import type {
 } from './domain/types'
 
 type FlowStep = 'reference' | 'listings' | 'results'
+type GlassTheme = 'light' | 'dark'
 
 export function App() {
+  const [theme, setTheme] = useState<GlassTheme>(() => {
+    if (typeof document !== 'undefined') {
+      return document.documentElement.dataset.theme === 'dark'
+        ? 'dark'
+        : 'light'
+    }
+    return 'light'
+  })
+
+  const toggleTheme = () => {
+    const next: GlassTheme = theme === 'light' ? 'dark' : 'light'
+    setTheme(next)
+    if (typeof document !== 'undefined') {
+      document.documentElement.dataset.theme = next
+    }
+    try {
+      window.localStorage.setItem('denim_theme', next)
+    } catch {
+      // ignore storage errors
+    }
+  }
+
   const [initialLoad] = useState(() => loadPersistedState())
   const [userState, setUserState] = useState<AppPersistedState>(
     () => initialLoad.state
@@ -192,6 +215,17 @@ export function App() {
           </div>
 
           <div className="header-controls">
+            <button
+              type="button"
+              id="btn-toggle-theme"
+              data-testid="btn-toggle-theme"
+              className="btn btn-sm"
+              onClick={toggleTheme}
+              aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} glass theme`}
+            >
+              {theme === 'light' ? '🌙 Night Glass' : '☀️ Day Glass'}
+            </button>
+
             <div
               className="unit-toggle-group"
               role="group"
