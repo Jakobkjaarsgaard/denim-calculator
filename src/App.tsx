@@ -185,13 +185,9 @@ export function App() {
       <header className="app-header">
         <div className="header-top-row">
           <div className="brand-title-group">
-            <span className="brand-eyebrow">
-              Second-Hand Japanese Denim • Selvedge Spec Comparator
-            </span>
             <h1>Denim Fit Check</h1>
             <p className="brand-subtitle">
-              Where will this pair measure differently from mine, and what should
-              I ask the seller before buying?
+              Second-hand Japanese denim comparator
             </p>
           </div>
 
